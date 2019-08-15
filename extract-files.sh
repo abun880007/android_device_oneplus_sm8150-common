@@ -24,9 +24,9 @@ VENDOR=oneplus
 MY_DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "${MY_DIR}" ]]; then MY_DIR="${PWD}"; fi
 
-AOSIP_ROOT="${MY_DIR}"/../../..
+TUB_ROOT="${MY_DIR}"/../../..
 
-HELPER="${AOSIP_ROOT}/vendor/aosip/build/tools/extract_utils.sh"
+HELPER="${TUB_ROOT}/vendor/tub/build/tools/extract_utils.sh"
 if [ ! -f "${HELPER}" ]; then
     echo "Unable to find helper script at ${HELPER}"
     exit 1
@@ -63,12 +63,12 @@ if [ -z "${SRC}" ]; then
 fi
 
 # Initialize the helper for common device
-setup_vendor "${DEVICE_COMMON}" "${VENDOR}" "${AOSIP_ROOT}" true "${CLEAN_VENDOR}"
+setup_vendor "${DEVICE_COMMON}" "${VENDOR}" "${TUB_ROOT}" true "${CLEAN_VENDOR}"
 
 extract "${MY_DIR}/proprietary-files.txt" "${SRC}" \
         "${KANG}" --section "${SECTION}"
 
-COMMON_BLOB_ROOT="${LINEAGE_ROOT}/vendor/${VENDOR}/${DEVICE_COMMON}/proprietary"
+COMMON_BLOB_ROOT="${TUB_ROOT}/vendor/${VENDOR}/${DEVICE_COMMON}/proprietary"
 
 sed -i "s/android.hidl.base@1.0.so/libhidlbase.so\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00/" "${COMMON_BLOB_ROOT}/lib64/libwfdnative.so" "${COMMON_BLOB_ROOT}/lib/libwfdnative.so"
 sed -i "s/android.hidl.base@1.0.so/libhidlbase.so\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00/" "${COMMON_BLOB_ROOT}/lib64/liblocationservice_jni.so"
